@@ -22,8 +22,48 @@ function gestisciSubmit(event){
 
     const iscrizione = newsletter ? "Si" : "No";
 
+    //serve un array con tutti elementi che saranno inseriti nella tabella
+
+    const valori = [nome, email, data, ora, tipoFeedback, testoFeedback, iscrizione]
+
     //per creare le celle nella tabella
     const riga = document.createElement("tr");
+
+    //scorro tutti gli elementi dell'array valori
+
+    for(let i=0; i<valori.length; i++){
+        const cella = document.createElement("td");
+        cella.textContent = valori[i];
+
+        //aggiungere la cella alla riga
+
+         riga.appendChild(cella);
+    }
+
+    //creare la cella che conterrà il pulsante elimina
+
+    const cellaAzioni = document.createElement("td");
+
+    //creo il pulsante
+
+    const bottoneElimina = document.createElement("button");
+
+    bottoneElimina.textContent = "Elimina";
+
+    /*bottoneElimina.addEventListener("click", function(){
+        riga.remove();
+    })*/ //funzione anonima
+    
+    //arrow function
+    bottoneElimina.addEventListener("click", () => {
+        riga.remove();
+    })
+
+    cellaAzioni.appendChild(bottoneElimina);
+
+    riga.appendChild(cellaAzioni);
+
+    tabellaFeedback.appendChild(riga);
 
     const dato = {
         nome,
@@ -34,4 +74,6 @@ function gestisciSubmit(event){
         testoFeedback,
         iscrizione
     };
+
+
 }
