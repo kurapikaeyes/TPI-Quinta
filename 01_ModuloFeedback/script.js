@@ -13,7 +13,7 @@ function gestisciSubmit(event){
     const ora = document.getElementById("time").value;
     const tipoFeedback = document.getElementById("tipo").value;
     const testoFeedback = document.getElementById("textarea").value.trim();
-    const newsletter = document.getElementById("check").ariaChecked;
+    const newsletter = document.getElementById("check").checked;
 
     if(!nome || !email || !data || !ora || !tipoFeedback || !testoFeedback){
         alert("Compila tutti i campi obbligatori!");
@@ -21,7 +21,6 @@ function gestisciSubmit(event){
     }
 
     const iscrizione = newsletter ? "Si" : "No";
-
     //serve un array con tutti elementi che saranno inseriti nella tabella
 
     const valori = [nome, email, data, ora, tipoFeedback, testoFeedback, iscrizione]
