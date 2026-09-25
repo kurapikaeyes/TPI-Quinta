@@ -1,95 +1,30 @@
-const form = document.getElementById("form");
-const formFeedback = document.getElementById("formFeedback");
-const messaggio = document.getElementById("messaggio");
-const tabella = document.getElementById("tabellaFeedback")
-
-formFeedback.addEventListener("submit", gestisciSubmit);
-const dati = [];
-
-function creaRiga(valori){
-    const campi = ["nome", "email", "data", "ora", "tipoFeedback", "testoFeedback", "iscrizione"];
-     const riga = document.createElement("tr");
-    for(let i=0;i<campi.length;i++){
-        const cella=document.createElement("td");
-        cella.textContent=valori[campi[i]];
-        riga.appendChild(cella);
+const form = document.getElementById("form")
+const tabellaFeedback = document.getElementById("tabellaFeedback")
+ 
+let dati = JSON.parse(localStorage.getItem("listaFeedback")) || []
+ 
+mostraDatiSalvati()
+ 
+form.addEventListener("submit", gestisciSubmit)
+ 
+function gestisciSubmit(event) {
+    event.preventDefault()
+ 
+    const nome = document.getElementById("nome").value.trim()
+    const email = document.getElementById("email").value.trim()
+    const data = document.getElementById("data").value.trim()
+    const ora = document.getElementById("ora").value.trim()
+    const tipoFeedback = document.getElementById("tipoFeedback").value.trim()
+    const testoFeedback = document.getElementById("testoFeedback").value.trim()
+    const newsletterChecked = document.getElementById("newsletter").checked
+ 
+    if (!nome || !email || !data || !ora || !tipoFeedback || !testoFeedback) {
+        alert("Compila tutti i campi obbligatori.")
+        return
     }
-    //creare la cella che conterrà il pulsante elimina
-
-    const cellaAzioni = document.createElement("td");
-    //creo il pulsante
-
-    const bottoneElimina = document.createElement("button");
-    bottoneElimina.textContent = "Elimina";
-
-    //arrow function
-    bottoneElimina.addEventListener("click", () => {
-        const indice = campi.indexOf(valori);
-        if(indice !==-1){
-            dati.splice(indice, 1);
-        }
-        riga.remove();
-    });
-
-    cellaAzioni.appendChild(bottoneElimina);
-
-    riga.appendChild(cellaAzioni);
-
-    tabellaFeedback.appendChild(riga);
-
-}
-
-
-function gestisciSubmit(event){
-    event.preventDefault();
-    const nome = document.getElementById("nome").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const data = document.getElementById("date").value;
-    const ora = document.getElementById("time").value;
-    const tipoFeedback = document.getElementById("tipo").value;
-    const testoFeedback = document.getElementById("textarea").value.trim();
-    const newsletter = document.getElementById("check").checked;
-
-    if(!nome || !email || !data || !ora || !tipoFeedback || !testoFeedback){
-        alert("Compila tutti i campi obbligatori!");
-        return;
-    }
-
-    const iscrizione = newsletter ? "Si" : "No";
-    //serve un array con tutti elementi che saranno inseriti nella tabella
-
-    //creo un oggetto che contiene tutte le informazioni relative ad un singolo feedback
-    //le chiavi rappresentano i nomi dei campi
-    //i valori rappresentano i dati inseriti dall'utente
-
-    //notazione abbreviata quando il nome della proprietà è uguale al nome della variabile
-    const valori = {
-        nome,
-        email,
-        data, 
-        ora, 
-        tipoFeedback, 
-        testoFeedback, 
-        iscrizione
-    };
-    
-    
-
-
-    //scorro tutti gli elementi dell'array valori
-
-    
-    
-    
-
-    /*bottoneElimina.addEventListener("click", function(){
-        riga.remove();
-    })*/ //funzione anonima
-    
-    
-
-    
-
+ 
+    const iscrizione = newsletterChecked ? "Sì" : "No"
+ 
     const dato = {
         nome,
         email,
@@ -97,9 +32,50 @@ function gestisciSubmit(event){
         ora,
         tipoFeedback,
         testoFeedback,
-        iscrizione
-    };
-dati.push(valori);
-creaRiga(valori);
-formFeedback.reset();
+        newsletter: iscrizione
+    }
+ 
+    dati.push(dato)
+    salvaNelLocalStorage()
+ 
+    aggiungiRigaInTabella(dato, dati.length - 1)
+ 
+    form.reset()
 }
+ 
+function aggiungiRigaInTabella(dato, indice) {
+    const riga = document.createElement("tr")
+    const valori = [dato.nome, dato.email, dato.data, dato.ora, dato.tipoFeedback, dato.testoFeedback, dato.newsletter]
+ 
+    for (let i = 0; i < valori.length; i++) {
+        const cella = document.createElement("td")
+        cella.textContent = valori[i]
+        riga.appendChild(cella)
+    }
+ 
+    const cellaAzioni = document.createElement("td")
+    const bottoneElimina = document.createElement("button")
+    bottoneElimina.textContent = "Elimina"
+ 
+    bottoneElimina.addEventListener("click", () => {
+        dati.splice(indice, 1)
+        salvaNelLocalStorage()
+        mostraDatiSalvati()
+    })
+ 
+    cellaAzioni.appendChild(bottoneElimina)
+    riga.appendChild(cellaAzioni)
+    tabellaFeedback.appendChild(riga)
+}
+ 
+function salvaNelLocalStorage() {
+    localStorage.setItem("listaFeedback", JSON.stringify(dati))
+}
+ 
+function mostraDatiSalvati() {
+    tabellaFeedback.innerHTML = ""
+    dati.forEach((elemento, indice) => {
+        aggiungiRigaInTabella(elemento, indice)
+    })
+}
+ 

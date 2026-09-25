@@ -1,48 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feedback</title>
+    <title>Form Feedback</title>
     <script src="script01.js" defer></script>
 </head>
 <body>
+ 
     <h1>Modulo di Feedback</h1>
-    <form id="formFeedback">
+   
+    <form id="form">
         <fieldset>
             <label for="nome">Nome</label><br>
             <input type="text" id="nome" name="nome">
-        </fieldset>
-        <fieldset>
+            <br><br>
+ 
             <label for="email">Email</label><br>
-            <input type="text" id="email" name="email">
+            <input type="email" id="email" name="email">
+            <br><br>
+ 
+            <label for="data">Data</label><br>
+            <input type="date" id="data" name="data">
+            <br><br>
+ 
+            <label for="ora">Ora</label><br>
+            <input type="time" id="ora" name="ora">
+            <br><br>
+ 
+            <label for="tipoFeedback">Tipo di Feedback</label><br>
+            <select id="tipoFeedback" name="tipoFeedback">
+                <option value="Positivo">Positivo</option>
+                <option value="Negativo">Negativo</option>
+            </select>
+            <br><br>
+           
+            <label for="testoFeedback">Messaggio</label><br>
+            <textarea id="testoFeedback" name="testoFeedback" rows="5" cols="30"></textarea>
+            <br><br>
+ 
+            <input type="checkbox" id="newsletter" name="newsletter">
+            <label for="newsletter">Iscriviti alla newsletter</label>
+            <br><br>
+           
+            <button type="submit">Invia</button>
         </fieldset>
-        <fieldset>
-            <label for="date">Data del feedback</label><br>
-            <input type="date" id="date" name="date"><br>
-            <br>
-            <label for="time">Ora del feedback</label><br>
-            <input type="time" id="time" name="time">
-        </fieldset>
-        <fieldset>
-            <label for="tipo">Tipo di feedback</label>
-            <select name="tipo" id="tipo">
-            <option value="positivo">Positivo</option>
-            <option value="negativo">Negativo</option>
-            <option value="mid">Mid</option>
-            </select><br>
-            <br>
-            <label for="textarea">Messaggio</label><br>
-            <textarea id="textarea"></textarea>
-        </fieldset>
-        <fieldset>
-            <input type="checkbox" id="check" name="check">
-            <label for="check">Iscriviti alla newsletter</label>
-        </fieldset>
-        <button type="submit" id="formFeedback">Invia il feedback</button>
     </form>
-    <p id="messaggio"></p>
-    <h2>Feedback ricevuti</h2>
+ 
+    <h2>Feedback Ricevuti</h2>
     <table border="1">
         <thead>
             <tr>
@@ -56,9 +61,9 @@
                 <th>Azioni</th>
             </tr>
         </thead>
-
         <tbody id="tabellaFeedback">
         </tbody>
     </table>
+ 
 </body>
 </html>
